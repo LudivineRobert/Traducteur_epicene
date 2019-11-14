@@ -11,6 +11,7 @@ import codecs
 import spacy
 from spacy_lefff import LefffLemmatizer, POSTagger
 from dottize import *
+import nouns_inflector
 
 #======================Lemmatizer SETUP========================================
 nlp = spacy.load('fr')
@@ -27,12 +28,9 @@ epicenable_pos = ['NOUN', 'PROPN', 'ADJ', 'VERB', 'DET', 'ADP']
 def main():
     #doc = nlp("""Nous sommes des étudiants très sérieux.""")
     doc = nlp("""Les étudiants présentent leurs projets. Ils sont brillants !""")
-    extract_epicene_words_from_file()
     doc = preprocessing(doc)
     dottized_string = ''
-    #sort(doc)
     for word in doc:
-        #print(word.form, word.lemma)
         dottized_string += str(word.epicenize())+' '
     print(dottized_string)
     return dottized_string
@@ -50,14 +48,6 @@ def sort(pre_processed_doc):
     return epicenizable
         
 
-def extract_epicene_words_from_file():
-    fichier = codecs.open('list_epicene.txt','r','utf-8')
-    words = fichier.read()
-    global list_epicene 
-    list_epicene = words.split('\n')
-
-    fichier.close()
-
 class Word():
     def __init__(self,form,pos,lemma,index):
         self.form = form
@@ -74,7 +64,8 @@ class Word():
         return dottize_singular(self.lemma)
     
     def is_epicene(self):
-        return self.lemma in list_epicene #check LEMMA is epicene
+        if 'Noun' in self.pos:
+            return nouns_inflector.get_grammatical_gender(self.lemma) == 'invariant'  #check LEMMA is epicene
     
     def epicenize(self):
         '''
@@ -84,8 +75,12 @@ class Word():
         '''
         #Si le mot ne fait pas partie de la liste épicène
         if not self.is_epicene():
-            if  'NOUN' in self.pos or 'PROPN' in self.pos or 'ADJ' in self.pos:
+            if  'NOUN' in self.pos:
                 return self.dottize()
+            elif 'PROPN' in self.pos:
+                return self.form
+            elif 'ADJ' in self.pos:
+                return self.form
             elif 'VERB' in self.pos:
                 return self.form  
             elif 'DET' in self.pos:

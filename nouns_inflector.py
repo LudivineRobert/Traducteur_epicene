@@ -26,13 +26,15 @@ def get_feminine_form(lexical_entry):
                     if element.find('./feminineVariantOf').get('target')==lexical_entry.get('id'):
                         #pdb.set_trace()
                         return element.find('./formSet/lemmatizedForm/orthography').text
+            print('This noun does not allow a feminine form')
+            return lexical_entry.find('./formSet/lemmatizedForm/orthography').text
                     
         elif gender == 'feminine':
             print('This noun is already feminine')
             return lexical_entry.find('./formSet/lemmatizedForm/orthography').text
         else:
             print('This noun is epicene')
-            return None
+            return lexical_entry.find('./formSet/lemmatizedForm/orthography').text
     else:
         print('wrong input: word not recognized in the dictionnary')
         return None
@@ -44,12 +46,19 @@ def get_masculine_form(lexical_entry):
         gender = get_grammatical_gender(lexical_entry)
         
         if gender == 'feminine':
-            masculine_id = lexical_entry.find('./feminineVariantOf').get('target')
-            for element in root.findall('./lexicalEntry'):
-                if element.get('id') == masculine_id:
-                    return element.find('./formSet/lemmatizedForm/orthography').text
+            if lexical_entry.find('./feminineVariantOf') != None:
+                masculine_id = lexical_entry.find('./feminineVariantOf').get('target')
+                for element in root.findall('./lexicalEntry'):
+                    if element.get('id') == masculine_id:
+                        return element.find('./formSet/lemmatizedForm/orthography').text
+            else:
+                print('This noun does not allow a masculine form')
+                return lexical_entry.find('./formSet/lemmatizedForm/orthography').text
         elif gender == 'masculine':
             print('Noun already masculine')
+            return lexical_entry.find('./formSet/lemmatizedForm/orthography').text
+        else:
+            print('This noun is epicene')
             return lexical_entry.find('./formSet/lemmatizedForm/orthography').text
     else:
         print('wrong input: word not recognized in the dictionnary')
