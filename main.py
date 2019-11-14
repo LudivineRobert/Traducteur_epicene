@@ -12,6 +12,7 @@ import spacy
 from spacy_lefff import LefffLemmatizer, POSTagger
 from dottize import *
 import nouns_inflector
+import pdb
 
 #======================Lemmatizer SETUP========================================
 nlp = spacy.load('fr')
@@ -26,8 +27,13 @@ epicenable_pos = ['NOUN', 'PROPN', 'ADJ', 'VERB', 'DET', 'ADP']
 
 #===================Core of the program========================================
 def main():
-    #doc = nlp("""Nous sommes des étudiants très sérieux.""")
-    doc = nlp("""Les étudiants présentent leurs projets. Ils sont brillants !""")
+    doc = nlp("""La raison ne procède pas plus des autorités officieuses que des autorités officielles.
+Ni le publiciste, ni le journaliste, ni le tribun, ni l'orateur, ni le conférencier ne sont aujourd'hui de
+simples citoyens.
+Le journaliste qui a trente ou cinquante ou quatre-vingts milliers de lecteurs, le conférencier qui
+a régulièrement douze ou quinze cents spectateurs exercent en effet, comme le ministre,
+comme le député, une autorité gouvernementale.""")
+    #doc = nlp("""Les étudiants présentent leurs projets. Ils sont brillants !""")
     doc = preprocessing(doc)
     dottized_string = ''
     for word in doc:
@@ -69,13 +75,13 @@ class Word():
     
     def epicenize(self):
         '''
-        Takes a tuple as input (word, pos, lemma)
-        returns its dottized form is possible, 
+        returns the dottized form is possible, 
         returns the word itself otherwise
         '''
         #Si le mot ne fait pas partie de la liste épicène
         if not self.is_epicene():
             if  'NOUN' in self.pos:
+                pdb.set_trace()
                 return self.dottize()
             elif 'PROPN' in self.pos:
                 return self.form

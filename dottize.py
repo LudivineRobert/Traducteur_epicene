@@ -88,7 +88,10 @@ def dottize_plural(noun):
     '''
     try:
         if is_same_suffix(noun):
-            return concatenate_with_dot(*compare_strings(*get_noun_forms(noun)),get_plural_suffix(noun))
+            if len(get_noun_forms(noun))>1:
+                return concatenate_with_dot(*compare_strings(*get_noun_forms(noun)),get_plural_suffix(noun))
+            else:
+                return concatenate_with_dot(*compare_strings(get_noun_forms(noun)),get_plural_suffix(noun))
         else:
             forms = get_noun_forms(noun)
             masc_plur = pluralizer.pluralize(forms[0])
