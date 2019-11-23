@@ -59,8 +59,10 @@ def main():
             nouns_to_epicenize.append(noun)
     
     for noun in nouns_to_epicenize:
-        #related_to_epicenize = get_relations.get_index()
-        index_to_epicenize.update(related_to_epicenize)
+        pass
+        #if allow_opposite_gender_form 
+            #related_to_epicenize = get_relations.get_index()
+            #index_to_epicenize.update(related_to_epicenize)
         
     #For all the stuff to epicenize, 
         #epicenize according to the rules
