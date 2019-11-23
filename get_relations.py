@@ -26,6 +26,19 @@ for token in doc:
     print(token.text, token.pos_, token.i, token.dep_, token.head.text, token.head.pos_, [child for child in token.children])
 ######################################
 
+def spot_nouns():
+    return list(filter(lambda word: word.pos_ == "NOUN", doc)) ### USE THIS FUNCTION TO SPOT ALL NOUNS IN DOC
+
+def spot_nouns_index():
+    return list(map(lambda word: word.i, spot_nouns())) ### USE THIS FUNCTION TO SPOT INDEX OF ALL NOUNS IN DOC
+
+def nouns_indexes():
+    return list(zip(spot_nouns(), spot_nouns_index())) ### RETURNS A LIST OF TUPLES WITH ALL NOUN-INDEX PAIRS IN DOC
+
+print(spot_nouns())
+print(spot_nouns_index())
+print(nouns_indexes())
+
 #### FUNCTIONS ####
 
 def get_index_of_determinants_to_epicenize(doc):
@@ -68,11 +81,11 @@ print(get_index_of_avoir_to_epicenize(doc))
 print(get_index_of_adjectives_to_epicenize(doc))
 
 #### SMALL PIPELINE MODIFICATION: I COULDN'T TAKE ONLY A WORD AS INPUT.
-#### IN THAT WAY I LOST ALL THE RELATIONS. SO I TOOK THE WHOLE DOC AS INPUT.
+#### DOING THAT WAY YOU LOSE ALL THE RELATIONS. SO I TOOK THE WHOLE DOC AS INPUT.
 #### OUTPUTS OF THESE FUNCTIONS ARE LIST OF TUPLES CONTAINING 2 ELEMENTS:
 #### 1) INDEX OF WORD EVENTUALLY TO BE MODIFIED 2) INDEX OF THE NOUN LINKED TO EACH WORD.
-#### YOU CAN EXTRACT THE LIST OF NOUNS (WHICH ONLY NOW PASS THROUGH THE REFERS_TO_HUMAN FUNCTION)
-#### BY TAKING FOR EACH TUPLE INDEX[1]
+#### NOUNS ARE ALREADY EXTRACTED WITH SPOT_NOUNS IN THIS FILE
+
 #### I THINK WE DON'T NEED LEFFF ANYMORE
 
 #### NOTE: WHEN RELATION IS "ROOT" THERE'S NO WAY TO KEEP THE RELATIONS WE NEED.
