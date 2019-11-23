@@ -11,11 +11,12 @@ def epcienize_det(det):
     #determinant part
     
     #defini
-    det = re.sub(r"\b(le|la)\b","l·e·a",det)
+    det = re.sub(r"\bl[ea]\b","l·e·a",det)
     #indefini
-    det = re.sub(r"\b(un|une)\b","un·e",det)
+    det = re.sub(r"\bune?\b","un·e",det)
     #partitif
-    det = re.sub(r"\b(du|de l'|de la)\b","d·u·e la",det)    
+    det = re.sub(r"\bd(u|e\sla)\b","d·u·e la",det)
+    det = re.sub(r"\bde\sl'","d·u·e l'",det) # what do we want here? maybe it's not needed.
     #ddemonstratif
     det = re.sub(r"\b(ce|cet|cette)\b","ce·tte",det)
     #dpossessif1    
@@ -46,6 +47,7 @@ def epcienize_det(det):
     det = re.sub(r"\bdifférent(s|es)\b","différent·e·s",det)
     
     return det
+
 
 def epicenize_pron(pron):
     #pronouns part
