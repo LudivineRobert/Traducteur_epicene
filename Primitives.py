@@ -60,6 +60,7 @@ def find_primitive(ID):
     for element in tree.findall('./SYNSET'):
         if ID == element.find('./ID').text:
             return element
+    raise ValueError
         
 def get_from_P(ID_adress):
     '''
@@ -79,12 +80,13 @@ def from_primitive_to_lemma(Primitive):
     #Btw, attention au différent LITERAL si il apparait en deuxième ou troisième position, il n'est pas pris en compte
 
 
-def looking_for_human(word):
+def is_human(word):
     """
     word is currently the ID of a word (yeah we should change the name of that variable)
     so we can start the loop between ID to hypernym
     """
     current_loc = find_primitive(word)
+        
     identifiant = current_loc.find('./ID').text
     #print('Emplacements',identifiant)
     if identifiant in ('eng-30-00007846-n','eng-30-00007846-n'):
@@ -92,9 +94,12 @@ def looking_for_human(word):
     
     elif identifiant not in ('eng-30-00001740-n','eng-30-00002137-n'):
         identifiant = get_hyperonym(current_loc)
-        return looking_for_human(identifiant)
+        return is_human(identifiant)
 
     return False
+
+def is_human_from_noun(noun):
+    return is_human(get_hyperonym(get_lexical_entry(Noun)))
 
 #===============================Test============================================
 
@@ -103,10 +108,8 @@ Noun_list = ['étudiant','chanteur','mage','magicien','lapin','carotte','magie',
 
 for Noun in Noun_list :
     print('Voici le nom traité :', Noun)
-    if looking_for_human(get_hyperonym(get_lexical_entry(Noun))):
-        print("It's a human being")
-    else: 
-        print("it's not human")
+    print(is_human_from_noun(Noun))
+
 
 #ON peut aller depuis l'ID du mot mais qu'en est-il du mot ?
     
