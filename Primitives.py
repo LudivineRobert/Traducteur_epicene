@@ -99,17 +99,17 @@ def is_human(word):
     return False
 
 def is_human_from_noun(noun):
-    return is_human(get_hyperonym(get_lexical_entry(Noun)))
+    return is_human(get_hyperonym(get_lexical_entry(noun)))
 
 #===============================Test============================================
 
-from_primitive_to_lemma(find_primitive(test_h))
-Noun_list = ['étudiant','chanteur','mage','magicien','lapin','carotte','magie','chapeau']
-
-for Noun in Noun_list :
-    print('Voici le nom traité :', Noun)
-    print(is_human_from_noun(Noun))
-
+#from_primitive_to_lemma(find_primitive(test_h))
+#Noun_list = ['étudiant','chanteur','mage','magicien','lapin','carotte','magie','chapeau']
+#
+#for Noun in Noun_list :
+#    print('Voici le nom traité :', Noun)
+#    print(is_human_from_noun(Noun))
+#
 
 #ON peut aller depuis l'ID du mot mais qu'en est-il du mot ?
     

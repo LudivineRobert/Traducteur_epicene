@@ -29,7 +29,6 @@ def preprocessing(text):
             Pron(text[i].text,text[i].tag_,text[i].lemma_,i)
         elif 'ADJ' in text[i].tag_:
             Adj(text[i].text,text[i].tag_,text[i].lemma_,i)
-        
         else:
             Word(text[i].text,text[i].tag_,text[i].lemma_,i)
 
@@ -91,7 +90,6 @@ def main():
     for noun in list_nouns:
         if noun.refers_to_human():
             nouns_to_epicenize.append(noun)
-            index_to_epicenize.add(noun.index)
     pdb.set_trace()
     for noun in nouns_to_epicenize:
         pass
