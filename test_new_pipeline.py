@@ -8,8 +8,12 @@ Created on Thu Nov 21 09:37:37 2019
 
 import spacy
 from spacy_lefff import LefffLemmatizer, POSTagger
+import pdb
 
 import get_relations
+import Primitives
+
+#=====================PREPARATION==============================================
 
 nlp = spacy.load('fr')
 pos = POSTagger()
@@ -17,11 +21,21 @@ french_lemmatizer = LefffLemmatizer(after_melt=True, default=True)
 nlp.add_pipe(pos, name='pos', after='parser')
 nlp.add_pipe(french_lemmatizer, name='lefff', after='pos')
     
-def preprocessing(text:list)->list:
-    words_list = []
+def preprocessing(text):
     for i in range(len(text)):
-        words_list.append(Word(text[i].text,text[i].tag_,text[i].lemma_,i))
-    return words_list
+        if 'NOUN' in text[i].tag_:
+            Noun(text[i].text,text[i].tag_,text[i].lemma_,i)
+        elif 'PRON' in text[i].tag_:
+            Pron(text[i].text,text[i].tag_,text[i].lemma_,i)
+        elif 'ADJ' in text[i].tag_:
+            Adj(text[i].text,text[i].tag_,text[i].lemma_,i)
+        
+        else:
+            Word(text[i].text,text[i].tag_,text[i].lemma_,i)
+
+#=====================OBJECTS & CLASSES========================================
+global list_words
+list_words = []
 
 class Word():
     def __init__(self,form,pos,lemma,index):
@@ -29,35 +43,56 @@ class Word():
         self.pos = pos
         self.lemma = lemma
         self.index = index
+        list_words.append(self)
 
 
-def spot_nouns(doc):
-    nouns_list = []
-    for word in doc:
-        if 'NOUN' in word.pos:
-            nouns_list.append(word)
-    return nouns_list
+global list_nouns
+list_nouns = []
 
-def refers_to_human(word):
-    return True
+class Noun(Word):
+    def __init__(self,form,pos,lemma,index):
+        super().__init__(form, pos, lemma, index)
+        list_nouns.append(self)
+    
+    def refers_to_human(self):
+        return Primitives.is_human_from_noun(self.lemma)
+    def epicenize(self):
+        pass
 
-def get_related(word):
-    pass
+class Adj(Word):
+    def __init__(self,form,pos,lemma,index):
+        super().__init__(form, pos, lemma, index)
+
+    def epicenize(self):
+        pass
+
+global list_pron
+list_pron = []
+
+class Pron(Word):
+    def __init__(self,form,pos,lemma,index):
+        super().__init__(form, pos, lemma, index)
+        list_pron.append(self)
+        
+    def get_related_noun(self):
+        pass
+    def epicenize(self):
+        pass
+#=====================MAIN=====================================================
 
 def main():
     doc = nlp("""Les journalistes du coin sont très sérieux. Mais les boulangers, en revanche.. Les baguettes qu'ils ont préparées hier n'étaient pas délicieuses.""")
-    doc = preprocessing(doc)
+    preprocessing(doc)
     
-    index_to_epicenize = {}
-    
-    list_nouns = spot_nouns(doc)
+    index_to_epicenize = set()
     
     nouns_to_epicenize = []
     
     for noun in list_nouns:
-        if refers_to_human(noun):
+        if noun.refers_to_human():
             nouns_to_epicenize.append(noun)
-    
+            index_to_epicenize.add(noun.index)
+    pdb.set_trace()
     for noun in nouns_to_epicenize:
         pass
         #if allow_opposite_gender_form 
