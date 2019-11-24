@@ -80,7 +80,7 @@ class Pron(Word):
 #=====================MAIN=====================================================
 
 def main():
-    doc = nlp("""Les journalistes du coin sont très sérieux. Mais les boulangers, en revanche.. Les baguettes qu'ils ont préparées hier n'étaient pas délicieuses.""")
+    doc = nlp("""Les journalistes sont très sérieux. Mais les boulangers, en revanche.. Les baguettes qu'ils ont préparées hier n'étaient pas délicieuses.""")
     preprocessing(doc)
     
     index_to_epicenize = set()
@@ -90,12 +90,12 @@ def main():
     for noun in list_nouns:
         if noun.refers_to_human():
             nouns_to_epicenize.append(noun)
-    pdb.set_trace()
+            index_to_epicenize.add(noun.index)
+    #pdb.set_trace()
     for noun in nouns_to_epicenize:
-        pass
-        #if allow_opposite_gender_form 
-            #related_to_epicenize = get_relations.get_index()
-            #index_to_epicenize.update(related_to_epicenize)
+        index_to_epicenize.update(get_relations.get_index_of_all_related_element(doc, noun.index))
+    pdb.set_trace()
+    
         
     #For all the stuff to epicenize, 
         #epicenize according to the rules
