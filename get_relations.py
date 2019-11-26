@@ -21,11 +21,6 @@ text = ("Ni le publiciste que j'ai rencontré hier, ni le journaliste, ni le tri
 
 doc = nlp(text)
 
-# whole syntax tree #### for test ####
-for token in doc:
-    print(token.text, token.pos_, token.i, token.dep_, token.head.text, token.head.pos_, [child for child in token.children])
-######################################
-
 def spot_nouns():
     return list(filter(lambda word: word.pos_ == "NOUN", doc)) ### USE THIS FUNCTION TO SPOT ALL NOUNS IN DOC
 
@@ -34,10 +29,6 @@ def spot_nouns_index():
 
 def nouns_indexes():
     return list(zip(spot_nouns(), spot_nouns_index())) ### RETURNS A LIST OF TUPLES WITH ALL NOUN-INDEX PAIRS IN DOC
-
-#print(spot_nouns())
-#print(spot_nouns_index())
-#print(nouns_indexes())
 
 #### FUNCTIONS ####
 
@@ -54,7 +45,7 @@ def get_index_of_adpositions_to_epicenize(doc, noun_index):
         return None
 
 def get_index_of_etre1_to_epicenize(doc, noun_index): # when head is NOUN
-    try: 
+    try:
         return [token.head.i for token in doc if (token.dep_ == "nsubj" or token.dep_ == "cop") and token.pos_ == "VERB" and token.head.pos_ == "NOUN" and token.i == noun_index][0]
     except: return None
 
@@ -63,7 +54,7 @@ def get_index_of_etre2_to_epicenize(doc, noun_index): # when head is ADJ
         return [token.head.i for token in doc if (token.dep_ == "nsubj" or token.dep_ == "cop") and token.pos_ == "NOUN" and (token.head.pos_ == "ADJ" or token.head.pos_ == "VERB") and token.i == noun_index][0]
     except:
         return None
-    
+
 def get_index_of_etre3_to_epicenize(doc, noun_index): # when head is VERB
     try:
         return [token.head.i for token in doc if (token.dep_ == "nsubj:pass" or token.dep_ == "cop") and token.pos_ == "NOUN" and token.head.pos_ == "VERB" and token.i == noun_index][0]
@@ -102,8 +93,8 @@ def get_index_of_all_related_element(doc, noun_index):
         if index_list[i] == None:
             del index_list[i]
     return index_list
-    
-print(get_index_of_all_related_element(doc,29))
+
+#print(get_index_of_all_related_element(doc,29))
 
 #print(get_index_of_determinants_to_epicenize(doc,8))
 #print(get_index_of_adpositions_to_epicenize(doc,8))
