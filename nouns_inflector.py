@@ -15,7 +15,7 @@ def get_gender(orthography):
     lexical_entry = get_lexical_entry(orthography)
     if lexical_entry != None:
         return lexical_entry.find('./formSet/lemmatizedForm/grammaticalGender').text
-    return None
+    raise ValueError('Noun not found')
 
 
 def get_feminine(orthography):
@@ -30,17 +30,14 @@ def get_feminine(orthography):
                         #pdb.set_trace()
                         return element.find('./formSet/lemmatizedForm/orthography').text
             print('This noun does not allow a feminine form')
-            return lexical_entry.find('./formSet/lemmatizedForm/orthography').text
+            return orthography
                     
         elif gender == 'feminine':
-            print('This noun is already feminine')
-            return lexical_entry.find('./formSet/lemmatizedForm/orthography').text
+            raise ValueError('This noun is already feminine')
         else:
-            print('This noun is epicene')
-            return lexical_entry.find('./formSet/lemmatizedForm/orthography').text
+            raise ValueError('This noun is epicene')
     else:
-        print('wrong input: word not recognized in the dictionnary')
-        return None
+        raise ValueError('wrong input: word not recognized in the dictionnary')
     
     
 def get_masculine(orthography):
@@ -56,17 +53,13 @@ def get_masculine(orthography):
                     if element.get('id') == masculine_id:
                         return element.find('./formSet/lemmatizedForm/orthography').text
             else:
-                print('This noun does not allow a masculine form')
-                return lexical_entry.find('./formSet/lemmatizedForm/orthography').text
+                raise ValueError('This noun does not allow a masculine form')
         elif gender == 'masculine':
-            print('Noun already masculine')
-            return lexical_entry.find('./formSet/lemmatizedForm/orthography').text
+            raise ValueError('Noun already masculine')
         else:
-            print('This noun is epicene')
-            return lexical_entry.find('./formSet/lemmatizedForm/orthography').text
+            raise ValueError('This noun is epicene')
     else:
-        print('wrong input: word not recognized in the dictionnary')
-        return None
+        raise ValueError('wrong input: word not recognized in the dictionnary')
     
     
 def get_number(orthography):
@@ -82,11 +75,9 @@ def pluralize(orthography):
         number = get_number(orthography)
         gender = get_gender(orthography)
         if number == 'plural':
-            print('Adjective already plural')
-            return None
+            raise ValueError('Adjective already plural')
         if number == 'invariable':
-            print('Noun invariable in number when {}'.format(gender))
-            return None
+            raise ValueError('Noun invariable in number when {}'.format(gender))
         for inflexion in lexical_entry.findall('./formSet/inflectedForm'):
             if inflexion.find('./grammaticalNumber').text == 'plural':
                 return inflexion.find('orthography').text
@@ -98,11 +89,27 @@ def singularize(orthography):
         number = get_number(orthography)
         gender = get_gender(orthography)
         if number == 'singular':
-            print('Adjective already singular')
-            return None
+            raise ValueError('Adjective already singular')
         if number == 'invariable':
-            print('Noun invariable in number when {}'.format(gender))
-            return None
+            raise ValueError('Noun invariable in number when {}'.format(gender))
         for inflexion in lexical_entry.findall('./formSet/inflectedForm'):
             if inflexion.find('./grammaticalNumber').text == 'singular':
                 return inflexion.find('orthography').text
+            
+            
+            
+def get_forms(orthography):
+    ''' 
+    Takes a noun string, 
+    returns a list of 2 elements : the masculine and feminine version.
+    '''
+    lexical_entry = get_lexical_entry(orthography)
+    gender = get_gender(orthography)
+    if gender == ('masculine'):
+        opposite_gender = get_feminine(orthography)
+    elif gender == 'feminine':
+        opposite_gender = get_masculine(orthography)
+    else:
+        return orthography
+    if opposite_gender != None:
+        return (orthography, opposite_gender)

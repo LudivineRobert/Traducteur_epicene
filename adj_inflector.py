@@ -33,22 +33,19 @@ def get_feminine(orthography):
         for inflexion in lexical_entry.findall('./formSet/inflectedForm'):
             gender = inflexion.find('./grammaticalGender').text
             if gender == 'invariable':
-                print('Epicene adjective')
-                return None
+                raise ValueError('Epicene adjective')
             if gender == 'feminine':
                 return inflexion.find('./orthography').text
 
 def get_masculine(orthography):
     if get_gender(orthography) == 'masculine':
-        print('Adjective already masculine')
-        return None
+        raise ValueError('Adjective already masculine')
     lexical_entry = get_lexical_entry(orthography)
     if lexical_entry != None:
         for inflexion in lexical_entry.findall('./formSet/inflectedForm'):
             gender = inflexion.find('./grammaticalGender').text
             if gender == 'invariable':
-                print('Epicene adjective')
-                return None
+                raise ValueError('Epicene adjective')
             if gender == 'masculine':
                 return inflexion.find('./orthography').text
             
@@ -70,11 +67,9 @@ def pluralize(orthography):
         number = get_number(orthography)
         gender = get_gender(orthography)
         if number == 'plural':
-            print('Adjective already plural')
-            return None
+            raise ValueError('Adjective already plural')
         if number == 'invariable':
-            print('Adjective invariable in number when {}'.format(gender))
-            return None
+            raise ValueError('Adjective invariable in number when {}'.format(gender))
         for inflexion in lexical_entry.findall('./formSet/inflectedForm'):
             number_ = inflexion.find('./grammaticalNumber').text
             gender_ = inflexion.find('./grammaticalGender').text
@@ -88,11 +83,9 @@ def singularize(orthography):
         number = get_number(orthography)
         gender = get_gender(orthography)
         if number == 'singular':
-            print('Adjective already singular')
-            return None
+            raise ValueError('Adjective already singular')
         if number == 'invariable':
-            print('Adjective invariable in number when {}'.format(gender))
-            return None
+            raise ValueError('Adjective invariable in number when {}'.format(gender))
         for inflexion in lexical_entry.findall('./formSet/inflectedForm'):
             number_ = inflexion.find('./grammaticalNumber').text
             gender_ = inflexion.find('./grammaticalGender').text
