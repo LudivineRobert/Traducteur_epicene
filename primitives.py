@@ -57,7 +57,7 @@ def find_primitive(ID):
     for element in tree.findall('./SYNSET'):
         if ID == element.find('./ID').text:
             return element
-    raise ValueError
+    raise ValueError('Word not found')
 
 def get_from_P(ID_adress):
     '''

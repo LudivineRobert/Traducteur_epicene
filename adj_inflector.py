@@ -69,7 +69,8 @@ def pluralize(orthography):
         if number == 'plural':
             raise ValueError('Adjective already plural')
         if number == 'invariable':
-            raise ValueError('Adjective invariable in number when {}'.format(gender))
+            print('Adjective invariable in number when {}'.format(gender))
+            return orthography
         for inflexion in lexical_entry.findall('./formSet/inflectedForm'):
             number_ = inflexion.find('./grammaticalNumber').text
             gender_ = inflexion.find('./grammaticalGender').text
@@ -85,7 +86,8 @@ def singularize(orthography):
         if number == 'singular':
             raise ValueError('Adjective already singular')
         if number == 'invariable':
-            raise ValueError('Adjective invariable in number when {}'.format(gender))
+            print('Adjective invariable in number when {}'.format(gender))
+            return orthography
         for inflexion in lexical_entry.findall('./formSet/inflectedForm'):
             number_ = inflexion.find('./grammaticalNumber').text
             gender_ = inflexion.find('./grammaticalGender').text
@@ -93,3 +95,5 @@ def singularize(orthography):
                 return inflexion.find('./orthography').text
     raise ValueError('Word not found')
     #précieux : number is invariable in masculine but not in feminine
+    
+    

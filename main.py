@@ -5,58 +5,67 @@ Created on Thu Nov 21 09:37:37 2019
 
 @author: thibo
 """
-import pdb
 
 import spacy
-import dottize
 import get_relations
-import Primitives
-import nouns_inflector
-import adj_inflector
+import primitives
+import dottize_test
+import det_rules
 
 #=====================PREPARATION==============================================
 
 nlp = spacy.load('fr_core_news_sm')
 
-#def preprocessing(text):
-#    for i in range(len(text)):
-#        if 'NOUN' in text[i].pos_:
-#            Noun(text[i].text,text[i].pos_,text[i].lemma_,i)
-#        elif 'PRON' in text[i].pos_:
-#            Pron(text[i].text,text[i].pos_,text[i].lemma_,i)
-#        elif 'ADJ' in text[i].pos_:
-#            Adj(text[i].text,text[i].pos_,text[i].lemma_,i)
-#        else:
-#            Word(text[i].text,text[i].pos_,text[i].lemma_,i)
-
 def spot_nouns(doc):
     return list(filter(lambda word: word.pos_ == "NOUN", doc))
+
+def epicenize(word, base_noun):
+    """
+    Takes a word object from the doc returns its dottized epicene form
+    """
+    if word.pos_ == 'ADJ':
+        #pdb.set_trace()
+        return dottize_test.dottize_adjective(word, base_noun)
+    elif word.pos_ == 'NOUN':
+        #pdb.set_trace()
+        return dottize_test.dottize_noun(word, base_noun)
+    elif word.pos_ == 'DET':
+        return det_rules.epicenize_det(word.text)
+    elif word.pos_ == 'VERB':
+        return dottize_test.dottize_verb(word, base_noun)
+    else:
+        return word.text
 
 #=====================MAIN=====================================================
 
 def main():
-    doc = nlp("""Les journalistes sont très sérieux. Mais les boulangers, en revanche.. Les baguettes qu'ils ont préparées hier n'étaient pas délicieuses.""")
+    doc = nlp("""les jardiniers qui ont été embauché sont très compétent.""")
     print(doc)
     nouns_index = list(map(lambda word: word.i, spot_nouns(doc)))
 
-    list_index_to_epicenize = list()
-    set_index_to_epicenize = set()
+    lists_index_to_epicenize = list()
     for i in nouns_index:
         #pdb.set_trace()
-        if Primitives.is_human_from_noun(doc[i].lemma_):
-            list_index_to_epicenize.append(i)
+        try:
+            if primitives.is_human_from_noun(doc[i].lemma_):
+                lists_index_to_epicenize.append([i])
+        except:
+            None
     #pdb.set_trace()
-    for j in list_index_to_epicenize:
-        set_index_to_epicenize.update(get_relations.get_index_of_all_related_element(doc, j))
-    set_index_to_epicenize.update(list_index_to_epicenize)
-    print('\nIndexes of words to epicenize: {}'.format(set_index_to_epicenize))
-#    output_list = list_words
-#    for u in range(len(list_words)):
-#        if u in index_to_epicenize:
-#            pdb.set_trace()
-#            if list_words[u].pos in ['ADJ', 'NOUN']:
-#                output_list[u] = output_list[u].epicenize()
-#    print([word.pos for word in output_list])
+    for j in lists_index_to_epicenize:
+        j += get_relations.get_index_of_all_related_element(doc, j[0])
+    print('\nIndexes of words to epicenize: {}'.format(lists_index_to_epicenize))
+    
+    output_list = [word.text for word in doc]
+    
+    for u in range(len(doc)):
+        for l in lists_index_to_epicenize:
+            if u in l:
+                print('currently processed: {}'.format(doc[u].text))
+                output_list[u] = epicenize(doc[u], base_noun = doc[l[0]])
+                break
+    print('\n\n')
+    print(' '.join(output_list))
 
 
 

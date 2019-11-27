@@ -7,7 +7,7 @@ Created on Wed Nov 13 11:21:01 2019
 """
 import re
 
-def epcienize_det(det):
+def epicenize_det(det):
     #determinant part
     
     #defini
