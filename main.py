@@ -9,7 +9,7 @@ Created on Thu Nov 21 09:37:37 2019
 import spacy
 import get_relations
 import primitives
-import dottize_test
+import dottize
 import det_rules
 
 #=====================PREPARATION==============================================
@@ -25,14 +25,14 @@ def epicenize(word, base_noun):
     """
     if word.pos_ == 'ADJ':
         #pdb.set_trace()
-        return dottize_test.dottize_adjective(word, base_noun)
+        return dottize.dottize_adjective(word, base_noun)
     elif word.pos_ == 'NOUN':
         #pdb.set_trace()
-        return dottize_test.dottize_noun(word, base_noun)
+        return dottize.dottize_noun(word, base_noun)
     elif word.pos_ == 'DET':
         return det_rules.epicenize_det(word.text)
     elif word.pos_ == 'VERB':
-        return dottize_test.dottize_verb(word, base_noun)
+        return dottize.dottize_verb(word, base_noun)
     else:
         return word.text
 
