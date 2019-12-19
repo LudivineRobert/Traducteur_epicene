@@ -39,8 +39,11 @@ def epicenize(word, base_noun):
 #=====================MAIN=====================================================
 
 def main():
-    doc = nlp("""les jardiniers qui ont été embauché sont très compétent.""")
-    print(doc)
+    print("please enter the name of the file..")
+    input_name = input("")
+    with open('inputs/'+input_name, 'r') as input_file:
+        content = input_file.read()
+        doc = nlp(content)
     nouns_index = list(map(lambda word: word.i, spot_nouns(doc)))
 
     lists_index_to_epicenize = list()
@@ -64,8 +67,12 @@ def main():
                 print('currently processed: {}'.format(doc[u].text))
                 output_list[u] = epicenize(doc[u], base_noun = doc[l[0]])
                 break
-    print('\n\n')
-    print(' '.join(output_list))
+    
+    output = ' '.join(output_list)
+    new_file_path = 'outputs/epicene_'+input_name
+    with open(new_file_path, 'w+') as output_file:
+        print(output, file = output_file)
+        print("File created at{}".format(new_file_path))
 
 
 
