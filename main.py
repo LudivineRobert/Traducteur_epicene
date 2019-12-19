@@ -72,7 +72,7 @@ def process_file(filename):
     
     output = ' '.join(output_list)
     new_file_path = 'outputs/epicene_'+filename
-    with open(new_file_path, 'w+') as output_file:
+    with open(new_file_path, 'w+', encoding = 'utf-8') as output_file:
         print(output, file = output_file)
         print("File created at {}".format(new_file_path))
 
@@ -80,7 +80,7 @@ def process_file(filename):
 def main():
     files = listdir('./inputs')
     for file in files:
-        if 'epicene_'+file not in listdir('./outputs'):
+        if 'epicene_zel'+file not in listdir('./outputs'):
             print('processing file "{}"'.format(file))
             process_file(file)
         else:
