@@ -108,6 +108,9 @@ def get_adj_forms(adj):
     elif gender == 'feminine':
         feminine = adj
         masculine = adj_inflector.get_masculine(adj)
+    else:
+        masculine = adj
+        feminine = masculine
     return (masculine, feminine)
 
 def get_noun_forms(noun):
