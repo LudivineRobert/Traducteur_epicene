@@ -1,30 +1,45 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Nov 26 15:06:06 2019
+
+@author: thibo
+"""
+
 import xml.etree.ElementTree as ET
-import pdb
 
 tree = ET.parse('Morphalou/adjective_Morphalou3.1_LMF.xml')
 root = tree.getroot()
 
-
 def get_lexical_entry(orthography):
-    #pdb.set_trace()
+    """
+    Takes the orthographic form of an adjective,
+    returns its xml entry in the morphalou file
+    """
     for element in tree.findall('./lexicalEntry'):
         for ortho in element.findall('./formSet/inflectedForm/orthography'):
-            #pdb.set_trace()
             if ortho.text == orthography:
                 return element
     raise ValueError('Lexical entry not found')
 
 def get_gender(orthography):
+    """
+    Takes the orthographic form of an adjective,
+    returns its gender.
+    possible values: masculine, feminine, invariant
+    """
     lexical_entry = get_lexical_entry(orthography)
     if lexical_entry != None:
-        #pdb.set_trace()
         for inflexion in lexical_entry.findall('./formSet/inflectedForm'):
-            #pdb.set_trace()
             if inflexion.find('./orthography').text == orthography:
                 return inflexion.find('./grammaticalGender').text
     raise ValueError('Word not found')
 
 def get_feminine(orthography):
+    """
+    Takes the orthographic form of a masculine adjective,
+    returns its feminine gendered form.
+    """
     if get_gender(orthography) == 'feminine':
         print('Adjective already feminine')
         return None
@@ -38,6 +53,10 @@ def get_feminine(orthography):
                 return inflexion.find('./orthography').text
 
 def get_masculine(orthography):
+    """
+    Takes the orthographic form of a feminine adjective,
+    returns its masculine gendered form.
+    """
     if get_gender(orthography) == 'masculine':
         raise ValueError('Adjective already masculine')
     lexical_entry = get_lexical_entry(orthography)
@@ -48,20 +67,25 @@ def get_masculine(orthography):
                 raise ValueError('Epicene adjective')
             if gender == 'masculine':
                 return inflexion.find('./orthography').text
-            
-            
-            
+
 def get_number(orthography):
+    """
+    Takes the orthographic form of an adjective,
+    return its grammatical number.
+    possible values: singular, plural, invariant.
+    """
     lexical_entry = get_lexical_entry(orthography)
     if lexical_entry != None:
-        #pdb.set_trace()
         for inflexion in lexical_entry.findall('./formSet/inflectedForm'):
-            #pdb.set_trace()
             if inflexion.find('./orthography').text == orthography:
                 return inflexion.find('./grammaticalNumber').text
     raise ValueError('Word not found')
-    
+
 def pluralize(orthography):
+    """
+    Takes the orthographic form of a singular adjective,
+    return its plural form.
+    """
     lexical_entry = get_lexical_entry(orthography)
     if lexical_entry != None:
         number = get_number(orthography)
@@ -77,8 +101,12 @@ def pluralize(orthography):
             if number_ == 'plural' and gender_ == gender:
                 return inflexion.find('./orthography').text
     raise ValueError('Word not found')
-          
+
 def singularize(orthography):
+    """
+    Takes the orthographic form of a plural adjective,
+    return its singular form.
+    """
     lexical_entry = get_lexical_entry(orthography)
     if lexical_entry != None:
         number = get_number(orthography)
@@ -94,6 +122,3 @@ def singularize(orthography):
             if number_ == 'singular' and gender_ == gender:
                 return inflexion.find('./orthography').text
     raise ValueError('Word not found')
-    #précieux : number is invariable in masculine but not in feminine
-    
-    

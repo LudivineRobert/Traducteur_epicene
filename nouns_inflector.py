@@ -1,10 +1,21 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Nov 26 15:06:06 2019
+
+@author: thibo
+"""
+
 import xml.etree.ElementTree as ET
-import pdb
 
 tree = ET.parse('Morphalou/commonNoun_Morphalou3.1_LMF.xml')
 root = tree.getroot()
 
 def get_lexical_entry(orthography):
+    """
+    Takes the orthographic form of a noun,
+    returns its xml entry in the morphalou file
+    """
     for element in tree.findall('./lexicalEntry'):
         for ortho in element.findall('./formSet/inflectedForm/orthography'):
             if ortho.text == orthography:
@@ -12,6 +23,11 @@ def get_lexical_entry(orthography):
     raise ValueError('Lexical entry not found')
 
 def get_gender(orthography):
+    """
+    Takes the orthographic form of a noun,
+    returns its gender.
+    possible values: masculine, feminine, invariant
+    """
     lexical_entry = get_lexical_entry(orthography)
     if lexical_entry != None:
         return lexical_entry.find('./formSet/lemmatizedForm/grammaticalGender').text
@@ -19,6 +35,10 @@ def get_gender(orthography):
 
 
 def get_feminine(orthography):
+    """
+    Takes the orthographic form of a masculine noun,
+    returns its feminine gendered form.
+    """
     lexical_entry = get_lexical_entry(orthography)
     if lexical_entry != None:
         gender = get_gender(orthography)
@@ -30,21 +50,25 @@ def get_feminine(orthography):
                         #pdb.set_trace()
                         return element.find('./formSet/lemmatizedForm/orthography').text
             raise ValueError('This noun does not allow a feminine form')
-                    
+
         elif gender == 'feminine':
             raise ValueError('This noun is already feminine')
         else:
             raise ValueError('This noun is epicene')
     else:
         raise ValueError('wrong input: word not recognized in the dictionnary')
-    
-    
+
+
 def get_masculine(orthography):
+    """
+    Takes the orthographic form of a feminine noun,
+    returns its masculine gendered form.
+    """
     lexical_entry = get_lexical_entry(orthography)
     #pdb.set_trace()
     if lexical_entry != None:
         gender = get_gender(orthography)
-        
+
         if gender == 'feminine':
             if lexical_entry.find('./feminineVariantOf') != None:
                 masculine_id = lexical_entry.find('./feminineVariantOf').get('target')
@@ -59,17 +83,26 @@ def get_masculine(orthography):
             raise ValueError('This noun is epicene')
     else:
         raise ValueError('wrong input: word not recognized in the dictionnary')
-    
-    
+
+
 def get_number(orthography):
+    """
+    Takes the orthographic form of a noun,
+    return its grammatical number.
+    possible values: singular, plural, invariant.
+    """
     lexical_entry = get_lexical_entry(orthography)
     if lexical_entry != None:
         for inflexion in lexical_entry.findall('./formSet/inflectedForm'):
             if inflexion.find('./orthography').text == orthography:
                 return inflexion.find('./grammaticalNumber').text
     raise ValueError('word not found')
-            
+
 def pluralize(orthography):
+    """
+    Takes the orthographic form of a singular noun,
+    return its plural form.
+    """
     lexical_entry = get_lexical_entry(orthography)
     if lexical_entry != None:
         number = get_number(orthography)
@@ -81,9 +114,13 @@ def pluralize(orthography):
         for inflexion in lexical_entry.findall('./formSet/inflectedForm'):
             if inflexion.find('./grammaticalNumber').text == 'plural':
                 return inflexion.find('orthography').text
-    raise ValueError('word not found')    
-            
+    raise ValueError('word not found')
+
 def singularize(orthography):
+    """
+    Takes the orthographic form of a plural noun,
+    return its singular form.
+    """
     lexical_entry = get_lexical_entry(orthography)
     if lexical_entry != None:
         number = get_number(orthography)
@@ -96,4 +133,3 @@ def singularize(orthography):
             if inflexion.find('./grammaticalNumber').text == 'singular':
                 return inflexion.find('orthography').text
     raise ValueError('word not found')
-            

@@ -1,18 +1,15 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Created on Thu Nov 21 11:26:32 2019
 
-@author: rog
+@author: olivier
 """
 
 import xml.etree.ElementTree as ET
 
 tree = ET.parse('wolf/wolf-1.0b4.xml')
 root = tree.getroot()
-
-#First : find the word in the xml " >WORD</LITERAL> "
-# Second : Find the hypernym and go to the hyperonyms
-#Third : go to the upper Hypernym : physical existence or not, and HUMAN
 
 def get_lexical_entry(lemma):
     """
@@ -22,15 +19,11 @@ def get_lexical_entry(lemma):
     for element in tree.findall('./SYNSET'):
         if lemma == element.find('./SYNONYM/LITERAL').text:
             return element
-
     for element in tree.findall('./SYNSET'):
         for elmt in element.findall('./SYNONYM/LITERAL'):
             if lemma == elmt.text:
                 return element
     return None
-
-#test = get_lexical_entry('bouteille')
-#print('lexic_entry', test)
 
 def get_hyperonym(lexical_entry):
     """
@@ -42,12 +35,7 @@ def get_hyperonym(lexical_entry):
             return lexical_entry.find('./ILR[@type="hypernym"]').text
         else:
             return lexical_entry.find('./ILR[@type="instance_hypernym"]').text
-
     return None
-
-#test_h = get_hyperonym(test)
-
-#print('hyperonyme: ', test_h)
 
 def find_primitive(ID):
     """
@@ -97,15 +85,3 @@ def is_human(word):
 
 def is_human_from_noun(noun):
     return is_human(get_hyperonym(get_lexical_entry(noun)))
-
-#===============================Test============================================
-
-#from_primitive_to_lemma(find_primitive(test_h))
-#Noun_list = ['étudiant','chanteur','mage','magicien','lapin','carotte','magie','chapeau']
-#
-#for Noun in Noun_list :
-#    print('Voici le nom traité :', Noun)
-#    print(is_human_from_noun(Noun))
-#
-
-#ON peut aller depuis l'ID du mot mais qu'en est-il du mot ?
