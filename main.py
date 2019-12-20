@@ -23,7 +23,7 @@ def epicenize(word, base_noun):
     """
     Takes a word object from the doc returns its dottized epicene form
     """
-    
+
     try:
         if word.pos_ == 'ADJ':
             #pdb.set_trace()
@@ -60,16 +60,16 @@ def process_file(filename):
     for j in lists_index_to_epicenize:
         j += get_relations.get_index_of_all_related_element(doc, j[0])
     print('\nIndexes of words to epicenize: {}'.format(lists_index_to_epicenize))
-    
+
     output_list = [word.text for word in doc]
-    
+
     for u in range(len(doc)):
         for l in lists_index_to_epicenize:
             if u in l:
                 print('currently processed: {}'.format(doc[u].text))
                 output_list[u] = epicenize(doc[u], base_noun = doc[l[0]])
                 break
-    
+
     output = ' '.join(output_list)
     new_file_path = 'outputs/epicene_'+filename
     with open(new_file_path, 'w+', encoding = 'utf-8') as output_file:
@@ -80,7 +80,7 @@ def process_file(filename):
 def main():
     files = listdir('./inputs')
     for file in files:
-        if 'epicene_zel'+file not in listdir('./outputs'):
+        if 'epicene_'+file not in listdir('./outputs'):
             print('processing file "{}"'.format(file))
             process_file(file)
         else:
