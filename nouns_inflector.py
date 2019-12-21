@@ -1,15 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Nov 26 15:06:06 2019
-
-@author: thibo
-"""
 
 import xml.etree.ElementTree as ET
 
 tree = ET.parse('Morphalou/commonNoun_Morphalou3.1_LMF.xml')
 root = tree.getroot()
+
 
 def get_lexical_entry(orthography):
     """
@@ -22,6 +18,7 @@ def get_lexical_entry(orthography):
                 return element
     raise ValueError('Lexical entry not found')
 
+
 def get_gender(orthography):
     """
     Takes the orthographic form of a noun,
@@ -29,8 +26,9 @@ def get_gender(orthography):
     possible values: masculine, feminine, invariant
     """
     lexical_entry = get_lexical_entry(orthography)
-    if lexical_entry != None:
-        return lexical_entry.find('./formSet/lemmatizedForm/grammaticalGender').text
+    if lexical_entry is not None:
+        return lexical_entry.find(
+            './formSet/lemmatizedForm/grammaticalGender').text
     raise ValueError('Noun not found')
 
 
@@ -40,15 +38,16 @@ def get_feminine(orthography):
     returns its feminine gendered form.
     """
     lexical_entry = get_lexical_entry(orthography)
-    if lexical_entry != None:
+    if lexical_entry is not None:
         gender = get_gender(orthography)
         if gender == 'masculine':
-            #pdb.set_trace()
             for element in tree.findall('./lexicalEntry'):
-                if element.find('./feminineVariantOf') != None:
-                    if element.find('./feminineVariantOf').get('target')==lexical_entry.get('id'):
-                        #pdb.set_trace()
-                        return element.find('./formSet/lemmatizedForm/orthography').text
+                if element.find('./feminineVariantOf') is not None:
+                    if element.find(
+                            './feminineVariantOf').get('target') == \
+                            lexical_entry.get('id'):
+                        return element.find(
+                            './formSet/lemmatizedForm/orthography').text
             raise ValueError('This noun does not allow a feminine form')
 
         elif gender == 'feminine':
@@ -65,16 +64,17 @@ def get_masculine(orthography):
     returns its masculine gendered form.
     """
     lexical_entry = get_lexical_entry(orthography)
-    #pdb.set_trace()
-    if lexical_entry != None:
+    if lexical_entry is not None:
         gender = get_gender(orthography)
 
         if gender == 'feminine':
-            if lexical_entry.find('./feminineVariantOf') != None:
-                masculine_id = lexical_entry.find('./feminineVariantOf').get('target')
+            if lexical_entry.find('./feminineVariantOf') is not None:
+                masculine_id = lexical_entry.find(
+                    './feminineVariantOf').get('target')
                 for element in root.findall('./lexicalEntry'):
                     if element.get('id') == masculine_id:
-                        return element.find('./formSet/lemmatizedForm/orthography').text
+                        return element.find(
+                            './formSet/lemmatizedForm/orthography').text
             else:
                 raise ValueError('This noun does not allow a masculine form')
         elif gender == 'masculine':
@@ -92,11 +92,12 @@ def get_number(orthography):
     possible values: singular, plural, invariant.
     """
     lexical_entry = get_lexical_entry(orthography)
-    if lexical_entry != None:
+    if lexical_entry is not None:
         for inflexion in lexical_entry.findall('./formSet/inflectedForm'):
             if inflexion.find('./orthography').text == orthography:
                 return inflexion.find('./grammaticalNumber').text
     raise ValueError('word not found')
+
 
 def pluralize(orthography):
     """
@@ -104,17 +105,19 @@ def pluralize(orthography):
     return its plural form.
     """
     lexical_entry = get_lexical_entry(orthography)
-    if lexical_entry != None:
+    if lexical_entry is not None:
         number = get_number(orthography)
         gender = get_gender(orthography)
         if number == 'plural':
             raise ValueError('Adjective already plural')
         if number == 'invariable':
-            raise ValueError('Noun invariable in number when {}'.format(gender))
+            raise ValueError(
+                'Noun invariable in number when {}'.format(gender))
         for inflexion in lexical_entry.findall('./formSet/inflectedForm'):
             if inflexion.find('./grammaticalNumber').text == 'plural':
                 return inflexion.find('orthography').text
     raise ValueError('word not found')
+
 
 def singularize(orthography):
     """
@@ -122,13 +125,14 @@ def singularize(orthography):
     return its singular form.
     """
     lexical_entry = get_lexical_entry(orthography)
-    if lexical_entry != None:
+    if lexical_entry is not None:
         number = get_number(orthography)
         gender = get_gender(orthography)
         if number == 'singular':
             raise ValueError('Adjective already singular')
         if number == 'invariable':
-            raise ValueError('Noun invariable in number when {}'.format(gender))
+            raise ValueError(
+                'Noun invariable in number when {}'.format(gender))
         for inflexion in lexical_entry.findall('./formSet/inflectedForm'):
             if inflexion.find('./grammaticalNumber').text == 'singular':
                 return inflexion.find('orthography').text
