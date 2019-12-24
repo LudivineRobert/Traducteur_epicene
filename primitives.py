@@ -57,7 +57,7 @@ def get_from_P(ID_adress):
 
 def is_human(ID_word):
     """
-    word is currently the ID of a word (yeah we should change the name of that variable)
+    word is currently the ID of a word
     so we can start the loop between ID to hypernym
     """
     current_loc = find_primitive(ID_word)
