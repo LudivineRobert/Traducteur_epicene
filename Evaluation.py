@@ -10,11 +10,6 @@ import os
 
 nlp = spacy.load("fr_core_news_sm")
 
-#Créer une liste pour y mettre les noms de fichier
-#Ouvrir les fichiers
-#Parcourir la variable (fichier) et mettre les mots dans une liste
-#Comparer les élements dans la liste output traducteur et output 
-
 def nettoyage(doc ,file):
     symboles = ("«", "»", ":" , "!" , "%", "(", ")", "’", '.', ',',"—", '-', '"', '?',';','+', "'", "¨", "/", "€", "°", '"',"\n","\t" )
     

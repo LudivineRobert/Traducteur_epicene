@@ -228,7 +228,7 @@ def approxrand(a, b, **kwargs):
 def demo():
     print('-' * 75)
     for elem in os.listdir('./inputs'):
-        if elem.endswith(".txt") and elem not in ("agriculteurs.txt", "peguy.txt", "offre_emploi.txt", "eco.txt"):
+        if elem.endswith(".txt"):
             reference = Evaluation.nettoyage('expected_outputs', elem)
             test = Evaluation.nettoyage('outputs', 'epicene_'+elem)
             #reference = Evaluation.nettoyage('inputs', )

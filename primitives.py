@@ -4,11 +4,10 @@
 import xml.etree.ElementTree as ET
 
 tree = ET.parse('wolf/wolf-1.0b4.xml') #Use ET to parse the xml document
-root = tree.getroot() #Initialisation
+root = tree.getroot()
 
 def get_lexical_entry(lemma):
     """
-    lemma is the lexical word
     research the lemma in the XML and output the element of the tree
     """
     for element in tree.findall('./SYNSET'):
@@ -52,7 +51,7 @@ def get_from_P(ID_adress):
 
 def is_human(ID_word):
     """
-    word is currently the ID of a word (yeah we should change the name of that variable)
+    word is currently the ID of a word
     so we can start the loop between ID to hypernym
     """
     current_loc = find_primitive(ID_word)
