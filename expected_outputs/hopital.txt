@@ -1,11 +1,6 @@
 <<<<<<< HEAD
 Hôpital: des direct·eur·rice·s médicaux redoutent "un point de rupture irréversible"
-L'hôpital public "s'écroule": dans une tribune publiée mercredi par Le Monde, 70
-=======
-Hôpital: des direct·eur·rice·s médicaux redoutent "un point de rupture irréversible" ;
-L'hôpital public s'écroule: dans une tribune publiée mercredi par Le Monde, 70
->>>>>>> 3d78513fd2599dd1130fd4a22e71378841f6feab
-direct·eur·rice·s médicaux de l'Assistance publique - Hôpitaux de Paris (AP-HP) appellent à
+L'hôpital public "s'écroule": dans une tribune publiée mercredi par Le Monde, 70 direct·eur·rice·s médicaux de l'Assistance publique - Hôpitaux de Paris (AP-HP) appellent à
 augmenter le budget alloué à la santé et à revaloriser les salaires des soignant·e·s, redoutant
 un "point de rupture irréversible".
 "Nous ne sommes plus en mesure d'assurer nos missions dans de bonnes conditions de
@@ -14,13 +9,7 @@ médico-universitaires (DMU) récemment créés à l'AP-HP, à la veille d'une j
 mobilisation pour "sauver l'hôpital public".
 Faute de personnel, "des centaines de lits d'hospitalisation" et "des dizaines de salles
 d'opération" sont fermés, "chaque semaine des unités de soin ferment", poursuivent les
-aut·eur·rice·s de la tribune.
-<<<<<<< HEAD
-Conséquence, les délais de prise en charge "s'allongent" et ne sont plus "raisonnables" pour
-=======
-Conséquence, les délais de prise en charge "s'allongent"; et ne sont plus "raisonnables" pour
->>>>>>> 3d78513fd2599dd1130fd4a22e71378841f6feab
-les "soins urgents", obligeant les patient·e·s à "se tourner" vers le privé.
+aut·eur·rice·s de la tribune. Conséquence, les délais de prise en charge "s'allongent"; et ne sont plus "raisonnables" pour les "soins urgents", obligeant les patient·e·s à "se tourner" vers le privé.
 "Trop peu de recrutements de soignant·e·s sont en vue pour espérer un retour à la
 normale", estiment les directeur·e·s médicaux.
 Aux "centaines de postes" budgétisés mais non pourvus s'ajoute la fuite, "plus grave
@@ -40,11 +29,5 @@ aux logements facilité "à proximité" des hôpitaux.
 Plus largement, ils appellent à "une refonte complète" du financement de l'hôpital.
 Une "grande manifestation" est prévue jeudi à Paris par les syndicats et des collectifs
 désireux d'étendre la grève en cours depuis sept mois aux urgences à tout l'hôpital.
-<<<<<<< HEAD
 Mardi, l·e·a ministre de la Santé Agnès Buzyn, qui promet un "plan de soutien" courant
 novembre, a indiqué que des "discussions" étaient "en cours" sur le niveau de l'Ondam.
-=======
-
-Mardi, l·e·a ministre de la Santé Agnès Buzyn, qui promet un "plan de soutien" courant
-novembre, a indiqué que des "discussions" étaient "en cours" sur le niveau de l'Ondam.
->>>>>>> 3d78513fd2599dd1130fd4a22e71378841f6feab
