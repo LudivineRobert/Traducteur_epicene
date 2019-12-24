@@ -25,12 +25,14 @@ def compare_files(path1,path2):
     """
     with open(path1) as expected:
         expected = expected.read()
+        expected = expected.lower()
         expected = sub('(\n)+', ' ', expected)
         expected = sub('( )+', ' ', expected)
         expected = expected.split(' ')
         expected = set(expected)
     with open(path2) as got:
         got = got.read()
+        got = got.lower()
         got = sub('(\n)+', ' ', got)
         got = sub('( )+', ' ', got)
         got = got.split(' ')
