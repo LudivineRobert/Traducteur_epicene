@@ -3,8 +3,8 @@
 
 import xml.etree.ElementTree as ET
 
-tree = ET.parse('wolf/wolf-1.0b4.xml')
-root = tree.getroot()
+tree = ET.parse('wolf/wolf-1.0b4.xml') #Use ET to parse the xml document
+root = tree.getroot() #Initialisation
 
 def get_lexical_entry(lemma):
     """
@@ -50,25 +50,15 @@ def get_from_P(ID_adress):
         return ID_adress.find('./ILR[@type="hypernym"]').text
     return None
 
-#The fonction below is now useless for the loop because of the _ENTRY_ in LITERAL we can't go from Lemma to ID every times
-def from_primitive_to_lemma(Primitive):
-    """Primitive = element with the ID of the primitive
-    get the lemma"""
-    if Primitive != None:
-        return Primitive.find('./SYNONYM/LITERAL').text
-    return None
-    #Btw, attention au différent LITERAL si il apparait en deuxième ou troisième position, il n'est pas pris en compte
-
-
-def is_human(word):
+def is_human(ID_word):
     """
     word is currently the ID of a word (yeah we should change the name of that variable)
     so we can start the loop between ID to hypernym
     """
-    current_loc = find_primitive(word)
+    current_loc = find_primitive(ID_word)
 
     identifiant = current_loc.find('./ID').text
-    #print('Emplacements',identifiant)
+
     if identifiant in ('eng-30-00007846-n','eng-30-00007846-n'):
         return True
 
