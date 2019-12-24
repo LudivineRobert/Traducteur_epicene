@@ -1,10 +1,6 @@
-from nltk.metrics import *
+from nltk.metrics import f_measure
 from os import listdir
-
-filename = 'agriculteurs.txt'
-path1 = './outputs/epicene_'+filename
-path2 = './expected_outputs/'+filename
-import re
+from re import sub
 
 
 def main():
@@ -22,14 +18,14 @@ def main():
 def compare_files(path1,path2):
     with open(path1) as expected:
         expected = expected.read()
-        expected = re.sub('(\n)+', ' ', expected)
-        expected = re.sub('( )+', ' ', expected)
+        expected = sub('(\n)+', ' ', expected)
+        expected = sub('( )+', ' ', expected)
         expected = expected.split(' ')
         expected = set(expected)
     with open(path2) as got:
         got = got.read()
-        got = re.sub('(\n)+', ' ', got)
-        got = re.sub('( )+', ' ', got)
+        got = sub('(\n)+', ' ', got)
+        got = sub('( )+', ' ', got)
         got = got.split(' ')
         got = set(got)
     return f_measure(expected, got)
