@@ -4,7 +4,7 @@
 import xml.etree.ElementTree as ET
 
 
-tree = ET.parse('wolf/wolf-1.0b4.xml') #Use ET to parse the xml document
+tree = ET.parse('wolf/wolf-1.0b4.xml')  # Use ET to parse the xml document
 root = tree.getroot()
 
 
@@ -53,7 +53,6 @@ def get_from_P(ID_adress):
     if ID_adress is not None:
         return ID_adress.find('./ILR[@type="hypernym"]').text
     return None
-
 
 
 def is_human(ID_word):
