@@ -12,10 +12,7 @@ def clean(path):
     content = sub('(\s)(\))', '\\2', content)
     content = sub('(\()(\s)', '\\1', content)
     content = sub('([\'’])\s', '’', content)
-    #print(content)
-    #breakpoint()
     file.close()
     file = open(path, 'w', encoding = 'utf-8-sig')
     file.write(content)
     file.close()
-
