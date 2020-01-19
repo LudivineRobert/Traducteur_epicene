@@ -1,5 +1,5 @@
 # Traducteur_epicene
-![alt text](logo.png)
+![alt text](logo.png =250x)
 
 Traducteur epicene, or Epicene translator, is a python script which converts a standart french text into its epicene (non-gendered) form.
 
