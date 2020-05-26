@@ -6,7 +6,7 @@ Traducteur epicene, or Epicene translator, is a python script which converts a s
 
 ## Context
 
-It has been realized under the _Methods for NLP_ course, as part of the _Natural language processing_ masters' degree.
+It has been realized under the _Methods for NLP_ course, as part of the _Natural language processing_ masters' degree in _Université de Lorraine_.
 
 ## Instructions
 
